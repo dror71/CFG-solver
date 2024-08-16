@@ -1,17 +1,24 @@
 from tree_build import *
 from pre_process import rules, prepare_dict
-from process import first_pass
+from process import start_state
+import os
 
-rules_raw = dict(S="ε|1S1|0S0|T")
+rules = {}
+err_log = set()  # error log set
+
+# rules_raw = dict(S="ε|1S1|0S0|T")
 # rules_raw = dict(S="c|S|Sa")  |aA", A="b|C", C="ε")
 # rules_raw = dict(S="c|S|Sa|ε|D")
-
-key = 'S'  # S initial key
+rules_raw = dict(S="a|SA", A="AA|c")
+key = 'S'  # S start state
 
 
 def run():
-    prepare_dict(rules_raw)
-    root = first_pass(key)
-    root.print_tree()
-    root.in_languange()
-
+    if prepare_dict(rules_raw) == 1:
+        return 1
+    else:
+        root = start_state(key)
+        root.in_languange()
+        if os.path.exists("Tree.txt"):
+            os.remove("Tree.txt")
+        root.print_tree()

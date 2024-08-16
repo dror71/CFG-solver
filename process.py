@@ -1,67 +1,40 @@
-
 from tree_build import *
 
-
-
-iterate_limit = 3
-
+iterate_limit = 4
+ 
 def non_term_pos(data):
-    result = [b for b, v in enumerate(data) if v.isupper()]
+    result = []
+    for count, v in enumerate(data):
+        length = len(result)
+        if v.isupper():
+            if iterate_limit < length == count:
+                return result
+            else:
+                result.append(count)
     return result
 
-
-def derive_non(node, key, count):                # derive non terminals
-    value = rules.get(key)                       # get values of key
-    for i in value:
-        i = TreeNode(str(i))
-        node.add_child(i)
-        if i.data.isupper():
-            if i.data in rules:
-                if count > iterate_limit:
-                    return
-                else:
-                    derive_non(i, i.data, count + 1)
-
-
+ 
 def derive_combined(node, data, key, count):  # derive combined- terminals and non-terminals
     value = rules.get(key)  # get values of key
     for i in value:
-        i = TreeNode(data.replace(key, str(i)))
-        node.add_child(i)
-        if (not i.data.isupper() and not i.data.islower()) or i.data.isalnum():
-            res = non_term_pos(i.data)
-            for t in res:
-                if i.data[t] in rules:
-                    if count > iterate_limit:
-                        return
-                    else:
-                        derive_combined(i, i.data, i.data[t], count + 1)
-                else:
-                    err.add(i.data[t])
-        if i.data.isupper():
-            if i.data in rules:
+        i = TreeNode(data.replace(key, str(i),1))
+        node.add_child(i)     
+        res = non_term_pos(i.data)
+        for t in res:    
                 if count > iterate_limit:
                     return
                 else:
-                    derive_combined(i, i.data, key, count + 1)
+                    derive_combined(i, i.data, i.data[t], count + 1)
 
-
-def first_pass(key):
+def start_state(key):
     root = TreeNode(key)
-    value = rules.get(key)            # get values of key
+    value = rules.get(key)  # get values of key
     for i in value:
         i = TreeNode(i)
         root.add_child(i)
-        if (not i.data.isupper() and not i.data.islower()) or i.data.isalnum():
-            res = non_term_pos(i.data)
-            for t in res:
-                if i.data[t] in rules:
-                    derive_combined(i, i.data, i.data[t], 0)
-                else:
-                    err.add(i.data[t])
-
-        if i.data.isupper():
-            if i.data in rules:
-                derive_non(i, i.data, 0)
+        res = non_term_pos(i.data)
+        for temp in res:
+                derive_combined(i, i.data, i.data[temp], 0)
+         
 
     return root

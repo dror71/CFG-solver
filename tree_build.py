@@ -1,8 +1,15 @@
+
 from pre_process import rules
 
 epsilon = 'ε'
 sentence = set()
 err = set()  # error set
+
+
+def print_getter(str):
+    f = open("Tree.txt", "a")
+    f.write(str)
+    f.close()
 
 
 class TreeNode:
@@ -25,11 +32,12 @@ class TreeNode:
         return level
 
     def print_tree(self):
-        print('  ' * self.get_level() + '|--', end='')
         if epsilon in self.data:
-            print(self.data.replace(epsilon, ''))
+            str = f"{'  ' * self.get_level()}|--{self.data.replace(epsilon,'')}\n"
+            print_getter(str)
         else:
-            print(self.data)
+            str = f"{'  ' * self.get_level()}|--{self.data}\n"
+            print_getter(str)
         if self.children:
             for each in self.children:
                 each.print_tree()
