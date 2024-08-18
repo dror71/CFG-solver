@@ -1,5 +1,6 @@
 
 from pre_process import rules
+from pre_process import err_log
 
 epsilon = 'ε'
 sentence = set()
@@ -18,6 +19,7 @@ class TreeNode:
         self.children = []
         self.parent = None
 
+
     def add_child(self, child):
         self.child = child
         child.parent = self
@@ -34,23 +36,26 @@ class TreeNode:
     def print_tree(self):
         if epsilon in self.data:
             str = f"{'  ' * self.get_level()}|--{self.data.replace(epsilon,'')}\n"
-            print_getter(str)
+
         else:
             str = f"{'  ' * self.get_level()}|--{self.data}\n"
-            print_getter(str)
+        print_getter(str)
         if self.children:
             for each in self.children:
                 each.print_tree()
 
+
     def in_languange(self):
-        if self.children:  # travrese to tree leaves to the sentence
+        if self.children:                   # travrese to tree leaves to the sentence
             for each in self.children:
                 each.in_languange()
         else:
+
             if self.data.islower():
-                if epsilon in self.data:
-                    sentence.add(self.data.replace(epsilon, ''))
-                else:
-                    sentence.add(self.data)
+                        if epsilon in self.data:
+                            sentence.add(self.data.replace(epsilon, ''))
+                        else:
+                            sentence.add(self.data)
 
         return sorted(sentence)
+

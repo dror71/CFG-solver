@@ -9,4 +9,4 @@ from util import *
 if run()==1:
     error_log()
 else:
-    sentence_in_lanuange()
+    words_in_lanuange()
