@@ -11,7 +11,7 @@ def words_in_language():
     for i in sorted(words_set):
         if i in err_log:
             # print(f"\033[1;31m {i}", end=" ")     #color IDE
-            print(f"{i}", end=" ")
+            print(f"[{i}]", end=" ")
             f.write(f"[{i}]        ambiguous\n")
         else:
             # print(f"\033[1;36m {i}\033[0m", end=" ")     #color IDE
