@@ -4,9 +4,8 @@ from process import start_state
 from driver import run
 from util import *
 
-
-
-if run()==1:
+if run() == 1:
     error_log()
 else:
-    words_in_lanuange()
+    words_in_language()
+    #error_log()
